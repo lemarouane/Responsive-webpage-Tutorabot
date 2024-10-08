@@ -1009,12 +1009,26 @@
     - custom js link
   -->
   <script src="./assets/js/script.js" defer></script>
+  <script src="./assets/js/script.js" defer></script>
   <script>
     !function(w, d, s, ...args){
+      // Create a style element to hide the specific div
+      var style = d.createElement('style');
+      style.innerHTML = `
+        .sc-ibQAlb.cowwoT {
+          display: none !important;
+        }
+      `;
+      d.head.appendChild(style); // Append the style to the document head
+  
+      // Create the chatbot div
       var div = d.createElement('div');
       div.id = 'aichatbot';
       d.body.appendChild(div);
+      
       w.chatbotConfig = args;
+      
+      // Load the chatbot script
       var f = d.getElementsByTagName(s)[0],
       j = d.createElement(s);
       j.defer = true;
@@ -1024,7 +1038,8 @@
     }(window, document, 'script', '038F18A4-061A-4DCA-8109-0A8F9E4CB130', 'onboarding_bot', {
       apiHost: 'https://api-cf-eu-1.sendbird.com',
     });
-    </script>
+  </script>
+
 
   <!-- 
     - ionicon link
