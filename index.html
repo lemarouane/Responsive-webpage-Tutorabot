@@ -1010,35 +1010,66 @@
   -->
   <script src="./assets/js/script.js" defer></script>
   <script src="./assets/js/script.js" defer></script>
-  <script>
-    !function(w, d, s, ...args){
-      // Create a style element to hide the specific div
-      var style = d.createElement('style');
-      style.innerHTML = `
-        .sc-ibQAlb.cowwoT {
-          display: none !important;
+ <script>
+    !function(w, d, s, ...args) {
+        // Create a style element to hide the specific div
+        var style = d.createElement('style');
+        style.innerHTML = `
+            .sc-jaXxmE.heKXtN {
+                display: none !important;
+            }
+        `;
+        d.head.appendChild(style); // Append the style to the document head
+    
+        // Create the chatbot div
+        var div = d.createElement('div');
+        div.id = 'aichatbot';
+        d.body.appendChild(div);
+    
+        w.chatbotConfig = args;
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s);
+        j.defer = true;
+        j.type = 'module';
+        j.src = 'https://aichatbot.sendbird.com/index.js';
+        f.parentNode.insertBefore(j, f);
+    
+        // Function to change placeholder text
+        function changePlaceholder() {
+            var placeholder = d.querySelector('.sendbird-message-input--placeholder');
+            if (placeholder) {
+                placeholder.textContent = '💡 Aide-toi, pose une question à TutoBot ! 😊';
+            }
         }
-      `;
-      d.head.appendChild(style); // Append the style to the document head
-  
-      // Create the chatbot div
-      var div = d.createElement('div');
-      div.id = 'aichatbot';
-      d.body.appendChild(div);
-      
-      w.chatbotConfig = args;
-      
-      // Load the chatbot script
-      var f = d.getElementsByTagName(s)[0],
-      j = d.createElement(s);
-      j.defer = true;
-      j.type = 'module';
-      j.src = 'https://aichatbot.sendbird.com/index.js';
-      f.parentNode.insertBefore(j, f);
-    }(window, document, 'script', '038F18A4-061A-4DCA-8109-0A8F9E4CB130', 'onboarding_bot', {
-      apiHost: 'https://api-cf-eu-1.sendbird.com',
+    
+        // Change placeholder text after chatbot is loaded
+        j.onload = function() {
+            // Initial change
+            changePlaceholder();
+    
+            // Create a MutationObserver to watch for changes in the DOM
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    // Check if the mutation added new nodes
+                    if (mutation.addedNodes.length) {
+                        changePlaceholder(); // Change placeholder if new nodes are added
+    
+                        // Reset placeholder if it changes back to original
+                        var placeholder = d.querySelector('.sendbird-message-input--placeholder');
+                        if (placeholder && placeholder.textContent === 'Enter message') {
+                            changePlaceholder(); // Reset placeholder
+                        }
+                    }
+                });
+            });
+    
+            // Start observing the document body for child node changes
+            observer.observe(d.body, { childList: true, subtree: true });
+        };
+    }(window, document, 'script', '02DCCFFE-A4D6-4758-BABC-19FA4BD0CE6C', 'onboarding_bot', {
+        apiHost: 'https://api-cf-eu-1.sendbird.com',
     });
-  </script>
+    </script>
 
 
   <!-- 
